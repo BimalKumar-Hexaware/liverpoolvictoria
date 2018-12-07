@@ -24,7 +24,7 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "Where are you calling from"
+                                "text": "What is your FCA Number"
                             }
                         }
                     ]

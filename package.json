@@ -1,0 +1,22 @@
+{
+  "name": "liverpoolvictoria",
+  "version": "1.0.0",
+  "description": "This is a POC for the client LV= with CTI",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "stop": "forever stop index.js",
+    "devstart": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bimal Kumar H, Ashwin G",
+  "license": "ISC",
+  "dependencies": {    
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "forever": "^0.15.3",
+    "lodash": "^4.17.11",
+    "nodemon": "^1.18.4",
+    "request": "^2.88.0"
+  }
+}

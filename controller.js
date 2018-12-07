@@ -18,6 +18,18 @@ module.exports = {
                     }
                 });
                 break;
+            case "lv.funcEvent":
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "What is your FCA Number"
+                            }
+                        }
+                    ]
+                });
+                break;
             case "lv.funcEvent-getFCANum":
                 res.json({
                     "fulfillmentMessages": [

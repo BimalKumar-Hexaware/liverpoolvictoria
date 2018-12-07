@@ -10,7 +10,7 @@ module.exports = {
             case "lv.statusUpdate":
                 res.json({
                     "followupEventInput": {
-                        "name": "get-function-event",
+                        "name": "func_event",
                         "parameters": {
                             "func_event": "status update"
                         },

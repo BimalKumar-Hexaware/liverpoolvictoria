@@ -12,19 +12,19 @@ module.exports = {
                     "followupEventInput": {
                         "name": "get-function-event",
                         "parameters": {
-                            "function_name": "status update"
+                            "func_event": "status update"
                         },
                         "languageCode": "en-US"
                     }
                 });
                 break;
-            case "lv.getFunctionName-getFCANum":
+            case "lv.funcEvent-getFCANum":
                 res.json({
                     "fulfillmentMessages": [
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "What is your FCA Number"
+                                "text": "Where are you calling from"
                             }
                         }
                     ]

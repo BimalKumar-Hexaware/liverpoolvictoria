@@ -6,6 +6,7 @@ module.exports = {
     "webhookRequestHandler": (req, res) => {
         console.log("Dialogflow request body", JSON.stringify(req.body));
         console.log("DF Action", req.body.queryResult.action);
+        var session = req.body.session;
         switch (req.body.queryResult.action) {
             case "lv.statusUpdate":
                 res.json({
@@ -19,12 +20,22 @@ module.exports = {
                 });
                 break;
             case "lv.funcEvent":
+                var outputContext = _.filter(req.body.queryResult.outputContexts, { 'name': session + "/contexts/lvstatusupdate-followup" });
+                console.log("outputContext", JSON.stringify(outputContext));
                 res.json({
                     "fulfillmentMessages": [
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
                                 "text": "What is your FCA Number"
+                            }
+                        }
+                    ],
+                    "outputContexts": [
+                        {
+                            "name": "projects/lv-ouawvs/agent/sessions/gmQcsphpTkK_9jRK0wFoDw/contexts/func_event",
+                            "parameters": {
+                                "func_event": "status update"
                             }
                         }
                     ]

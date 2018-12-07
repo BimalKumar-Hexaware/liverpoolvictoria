@@ -20,8 +20,8 @@ module.exports = {
                 });
                 break;
             case "lv.funcEvent":
-                var outputContext = _.filter(req.body.queryResult.outputContexts, { 'name': session + "/contexts/lvstatusupdate-followup" });
-                console.log("outputContext", JSON.stringify(outputContext));
+                var functionContextIndex = _.indexOf(req.body.queryResult.outputContexts, { 'name': session + "/contexts/lvstatusupdate-followup" });
+                console.log("outputContext", JSON.stringify(req.body.queryResult.outputContexts[functionContextIndex]));
                 res.json({
                     "fulfillmentMessages": [
                         {
@@ -33,7 +33,7 @@ module.exports = {
                     ],
                     "outputContexts": [
                         {
-                            "name": "projects/lv-ouawvs/agent/sessions/gmQcsphpTkK_9jRK0wFoDw/contexts/func_event",
+                            "name": "projects/lv-ouawvs/agent/sessions/gmQcsphpTkK_9jRK0wFoDw/contexts/function_name",
                             "parameters": {
                                 "func_event": "status update"
                             }

@@ -7,6 +7,7 @@ module.exports = {
         console.log("Dialogflow request body", JSON.stringify(req.body));
         console.log("DF Action", req.body.queryResult.action);
         var session = req.body.session;
+
         switch (req.body.queryResult.action) {
             case "lv.statusUpdate":
                 res.json({
@@ -20,7 +21,8 @@ module.exports = {
                 });
                 break;
             case "lv.funcEvent":
-                var functionContextIndex = _.indexOf(req.body.queryResult.outputContexts, { 'name': session + "/contexts/lvstatusupdate-followup" });
+                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/func_event" });
+                var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 console.log("outputContext", JSON.stringify(req.body.queryResult.outputContexts[functionContextIndex]));
                 res.json({
                     "fulfillmentMessages": [
@@ -33,9 +35,10 @@ module.exports = {
                     ],
                     "outputContexts": [
                         {
-                            "name": "projects/lv-ouawvs/agent/sessions/gmQcsphpTkK_9jRK0wFoDw/contexts/function_name",
+                            "name": session + "/contexts/function_name",
+                            "lifespanCount": 5,
                             "parameters": {
-                                "func_event": "status update"
+                                "func_event": functionContext.parameters.func_event
                             }
                         }
                     ]

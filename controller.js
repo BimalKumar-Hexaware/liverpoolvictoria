@@ -177,7 +177,7 @@ module.exports = {
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/final_response" });
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 var params = req.body.queryResult.outputContexts[functionContextIndex].parameters;
-                if (params.firstAns == customers.securityAnswers.firstAnswer && params.secondAns == customers.securityAnswers.secondAnswer) {
+                if (params.firstAns.toLowerCase() == customers.securityAnswers.firstAnswer && params.secondAns.toLowerCase() == customers.securityAnswers.secondAnswer) {
                     res.json({
                         "fulfillmentMessages": [
                             {

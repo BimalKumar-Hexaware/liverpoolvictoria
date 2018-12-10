@@ -161,6 +161,30 @@ module.exports = {
                     ]
                 });
                 break;
+            case "lv.secQuesHandler-getFirstAns":
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "What was the make and model of your first car"
+                            }
+                        }
+                    ]
+                });
+                break;
+            case "lv.secQuesHandler-getFirstAns-getSecAns":
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "Success"
+                            }
+                        }
+                    ]
+                });
+                break;
         }
     }
 };

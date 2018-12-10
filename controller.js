@@ -21,6 +21,28 @@ module.exports = {
                     }
                 });
                 break;
+            case "lv.checkReport":
+                res.json({
+                    "followupEventInput": {
+                        "name": "func_event",
+                        "parameters": {
+                            "func_event": "check report"
+                        },
+                        "languageCode": "en-US"
+                    }
+                });
+                break;
+            case "lv.underwritingDecision":
+                res.json({
+                    "followupEventInput": {
+                        "name": "func_event",
+                        "parameters": {
+                            "func_event": "underwriting decision"
+                        },
+                        "languageCode": "en-US"
+                    }
+                });
+                break;
             case "lv.funcEvent":
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/func_event" });
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
@@ -95,6 +117,30 @@ module.exports = {
                                             "platform": "TELEPHONY",
                                             "telephonySynthesizeSpeech": {
                                                 "text": appStatus.data[params.lvrefno].statusText
+                                            }
+                                        }
+                                    ]
+                                });
+                                break;
+                            case "check report":
+                                res.json({
+                                    "fulfillmentMessages": [
+                                        {
+                                            "platform": "TELEPHONY",
+                                            "telephonySynthesizeSpeech": {
+                                                "text": appStatus.data[params.lvrefno].statusText
+                                            }
+                                        }
+                                    ]
+                                });
+                                break;
+                            case "underwriting decision":
+                                res.json({
+                                    "fulfillmentMessages": [
+                                        {
+                                            "platform": "TELEPHONY",
+                                            "telephonySynthesizeSpeech": {
+                                                "text": appStatus.data[params.lvrefno].uwDecisionReason
                                             }
                                         }
                                     ]

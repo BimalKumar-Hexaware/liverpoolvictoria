@@ -1,0 +1,28 @@
+{
+    "data": {
+        "123456": {
+            "status": "Acceptance",
+            "statusText": "Application has been accepted. You will receive acceptance terms via email within the next 3 days",
+            "outstanding": false,
+            "outstandingReport": "",
+            "underwritingDecision": "yes",
+            "uwDecisionReason": "All reports are fine the asked insurance range can be sanctioned"
+        },
+        "234567": {
+            "status": "RA",
+            "statusText": "Your application is in outstanding status as the submission of health report is pending.",
+            "outstanding": true,
+            "outstandingReport": "Health Report",
+            "underwritingDecision": "no",
+            "uwDecisionReason": "Health Report submission is pending to make a decision"
+        },
+        "987654": {
+            "status": "UW",
+            "statusText": " The application is with our Underwriting team. You will receive acceptance terms via email within the next 3 days.",
+            "outstanding": false,
+            "outstandingReport": "",
+            "underwritingDecision": "no",
+            "uwDecisionReason": "Application is in process, will be receiving an email on decision in next 3 days"
+        }
+    }
+}

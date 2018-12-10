@@ -86,7 +86,6 @@ module.exports = {
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 var params = req.body.queryResult.outputContexts[functionContextIndex].parameters;
                 if (customers.customerName == params.customerName && customers.fcaNumber == params.fcaNumber) {
-                    console.log(_.has(appStatus.data, params.lvrefno));
                     if (_.has(appStatus.data, params.lvrefno)) {
                         switch (params.func_event) {
                             case "status update":

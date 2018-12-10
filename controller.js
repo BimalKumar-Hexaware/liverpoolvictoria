@@ -85,11 +85,9 @@ module.exports = {
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/function_name" });
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 var params = req.body.queryResult.outputContexts[functionContextIndex].parameters;
-                console.log("HEREEE");
                 if (customers.customerName == params.customerName && customers.fcaNumber == params.fcaNumber) {
                     console.log(_.has(appStatus.data, params.lvrefno));
                     if (_.has(appStatus.data, params.lvrefno)) {
-                        console.log("HEREEE");
                         switch (params.func_event) {
                             case "status update":
                                 res.json({

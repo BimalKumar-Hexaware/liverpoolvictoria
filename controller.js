@@ -1,6 +1,7 @@
 var helper = require('./helper');
 var _ = require('lodash');
-tempOppstatus = "";
+var customers = require('./customer.json');
+var appStatus = require('./appStatus.json');
 
 module.exports = {
     "webhookRequestHandler": (req, res) => {
@@ -81,16 +82,52 @@ module.exports = {
                 });
                 break;
             case "lv.funcEvent-getFCANum-getLocation-getLVRef-getCusNo":
-                res.json({
-                    "fulfillmentMessages": [
-                        {
-                            "platform": "TELEPHONY",
-                            "telephonySynthesizeSpeech": {
-                                "text": "Success , it worked"
-                            }
+                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/function_name" });
+                var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
+                var params = req.body.queryResult.outputContexts[functionContextIndex].parameters;
+                console.log("HEREEE");
+                if (customers.customerName == params.customerName && customers.fcaNumber == params.fcaNumber) {
+                    console.log(_.has(appStatus.data, params.lvrefno));
+                    if (_.has(appStatus.data, params.lvrefno)) {
+                        console.log("HEREEE");
+                        switch (params.func_event) {
+                            case "status update":
+                                res.json({
+                                    "fulfillmentMessages": [
+                                        {
+                                            "platform": "TELEPHONY",
+                                            "telephonySynthesizeSpeech": {
+                                                "text": appStatus.data[params.lvrefno].statusText
+                                            }
+                                        }
+                                    ]
+                                });
+                                break;
                         }
-                    ]
-                });
+                    } else {
+                        res.json({
+                            "fulfillmentMessages": [
+                                {
+                                    "platform": "TELEPHONY",
+                                    "telephonySynthesizeSpeech": {
+                                        "text": "LV reference number is not matching."
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                } else {
+                    res.json({
+                        "fulfillmentMessages": [
+                            {
+                                "platform": "TELEPHONY",
+                                "telephonySynthesizeSpeech": {
+                                    "text": "Customer name and FCA number not matching"
+                                }
+                            }
+                        ]
+                    });
+                }
                 break;
         }
     }

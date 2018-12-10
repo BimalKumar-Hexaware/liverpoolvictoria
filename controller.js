@@ -56,6 +56,18 @@ module.exports = {
                     ]
                 });
                 break;
+            case "lv.funcEvent-getFCANum-getLocation":
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "What is the LV reference of application number"
+                            }
+                        }
+                    ]
+                });
+                break;
             /*case "lv.statusUpdate":
                res.json({
                    "fulfillmentMessages": [

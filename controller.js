@@ -68,66 +68,30 @@ module.exports = {
                     ]
                 });
                 break;
-            /*case "lv.statusUpdate":
-               res.json({
-                   "fulfillmentMessages": [
-                       {
-                           "platform": "TELEPHONY",
-                           "telephonySynthesizeSpeech": {
-                               "text": "What is your FCA Number"
-                           }
-                       }
-                   ]
-               });
-               break;
-          case "lv.statusUpdate-getFCANo":
-               res.json({
-                   "fulfillmentMessages": [
-                       {
-                           "platform": "TELEPHONY",
-                           "telephonySynthesizeSpeech": {
-                               "text": "Where are you calling from"
-                           }
-                       }
-                   ]
-               });
-               break;
-           case "lv.statusUpdate-getFCANo-getLoc":
-               res.json({
-                   "fulfillmentMessages": [
-                       {
-                           "platform": "TELEPHONY",
-                           "telephonySynthesizeSpeech": {
-                               "text": "What is the LV reference of application number"
-                           }
-                       }
-                   ]
-               });
-               break;
-           case "lv.statusUpdate-getFCANo-getLoc-getLVRefNo":
-               res.json({
-                   "fulfillmentMessages": [
-                       {
-                           "platform": "TELEPHONY",
-                           "telephonySynthesizeSpeech": {
-                               "text": "Whats the customers name"
-                           }
-                       }
-                   ]
-               });
-               break;
-           case "lv.statusUpdate-getFCANo-getLoc-getLVRefNo-getCustName":
-               res.json({
-                   "fulfillmentMessages": [
-                       {
-                           "platform": "TELEPHONY",
-                           "telephonySynthesizeSpeech": {
-                               "text": "Success , it worked"
-                           }
-                       }
-                   ]
-               });
-               break;*/
+            case "lv.funcEvent-getFCANum-getLocation-getLVRef":
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "Whats the customers name"
+                            }
+                        }
+                    ]
+                });
+                break;
+            case "lv.funcEvent-getFCANum-getLocation-getLVRef-getCusNo":
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "Success , it worked"
+                            }
+                        }
+                    ]
+                });
+                break;
         }
     }
 };

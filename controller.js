@@ -107,70 +107,59 @@ module.exports = {
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/function_name" });
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 var params = req.body.queryResult.outputContexts[functionContextIndex].parameters;
+                var response;
                 if (customers.customerName == params.customerName && customers.fcaNumber == params.fcaNumber) {
                     if (_.has(appStatus.data, params.lvrefno)) {
                         switch (params.func_event) {
                             case "status update":
-                                res.json({
-                                    "fulfillmentMessages": [
-                                        {
-                                            "platform": "TELEPHONY",
-                                            "telephonySynthesizeSpeech": {
-                                                "text": appStatus.data[params.lvrefno].statusText
-                                            }
-                                        }
-                                    ]
-                                });
+                                response = appStatus.data[params.lvrefno].statusText;
                                 break;
                             case "check report":
-                                res.json({
-                                    "fulfillmentMessages": [
-                                        {
-                                            "platform": "TELEPHONY",
-                                            "telephonySynthesizeSpeech": {
-                                                "text": appStatus.data[params.lvrefno].statusText
-                                            }
-                                        }
-                                    ]
-                                });
+                                response = appStatus.data[params.lvrefno].statusText;
                                 break;
                             case "underwriting decision":
-                                res.json({
-                                    "fulfillmentMessages": [
-                                        {
-                                            "platform": "TELEPHONY",
-                                            "telephonySynthesizeSpeech": {
-                                                "text": appStatus.data[params.lvrefno].uwDecisionReason
-                                            }
-                                        }
-                                    ]
-                                });
+                                response = appStatus.data[params.lvrefno].uwDecisionReason;
                                 break;
                         }
                     } else {
-                        res.json({
-                            "fulfillmentMessages": [
-                                {
-                                    "platform": "TELEPHONY",
-                                    "telephonySynthesizeSpeech": {
-                                        "text": "LV reference number is not matching."
-                                    }
-                                }
-                            ]
-                        });
+                        response = "LV reference number is not matching.";
                     }
+
                 } else {
-                    res.json({
-                        "fulfillmentMessages": [
-                            {
-                                "platform": "TELEPHONY",
-                                "telephonySynthesizeSpeech": {
-                                    "text": "Customer name and FCA number not matching"
-                                }
-                            }
-                        ]
-                    });
+                    response = "Customer name and FCA number not matching";
                 }
+                res.json({
+                    "followupEventInput": {
+                        "name": "sec_ques_handle_event",
+                        "parameters": {
+                            "final_response": response
+                        },
+                        "languageCode": "en-US"
+                    }
+                });
+                break;
+            case "lv.secQuesHandler":
+                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/sec_ques_handle_event" });
+                var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "What was your favorite sport in high school"
+                            }
+                        }
+                    ],
+                    "outputContexts": [
+                        {
+                            "name": session + "/contexts/final_response",
+                            "lifespanCount": 5,
+                            "parameters": {
+                                "func_event": functionContext.parameters.final_response
+                            }
+                        }
+                    ]
+                });
                 break;
         }
     }

@@ -146,6 +146,12 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
+                                "text": "Please authenticate yourself by answering the security questions"
+                            }
+                        },
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
                                 "text": "What was your favorite sport in high school"
                             }
                         }

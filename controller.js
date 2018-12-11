@@ -2,13 +2,14 @@ var helper = require('./helper');
 var _ = require('lodash');
 var customers = require('./customer.json');
 var appStatus = require('./appStatus.json');
+var u_session = "";
 
 module.exports = {
     "webhookRequestHandler": (req, res) => {
         console.log("Dialogflow request body", JSON.stringify(req.body));
         console.log("DF Action", req.body.queryResult.action);
         var session = req.body.session;
-
+        console.log("u_session", u_session);
         switch (req.body.queryResult.action) {
             case "lv.statusUpdate":
                 res.json({
@@ -124,19 +125,31 @@ module.exports = {
                     } else {
                         response = "LV reference number is not matching.";
                     }
-
                 } else {
                     response = "Customer name and FCA number not matching";
                 }
-                res.json({
-                    "followupEventInput": {
-                        "name": "sec_ques_handle_event",
-                        "parameters": {
-                            "final_response": response
-                        },
-                        "languageCode": "en-US"
-                    }
-                });
+                if (u_session == "") {
+                    res.json({
+                        "followupEventInput": {
+                            "name": "sec_ques_handle_event",
+                            "parameters": {
+                                "final_response": response
+                            },
+                            "languageCode": "en-US"
+                        }
+                    });
+                } else {
+                    res.json({
+                        "fulfillmentMessages": [
+                            {
+                                "platform": "TELEPHONY",
+                                "telephonySynthesizeSpeech": {
+                                    "text": response
+                                }
+                            }
+                        ]
+                    });
+                }
                 break;
             case "lv.secQuesHandler":
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/sec_ques_handle_event" });
@@ -184,6 +197,7 @@ module.exports = {
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 var params = req.body.queryResult.outputContexts[functionContextIndex].parameters;
                 if (params.firstAns.toLowerCase() == customers.securityAnswers.firstAnswer && params.secondAns.toLowerCase() == customers.securityAnswers.secondAnswer) {
+                    u_session = customers.fcaNumber;
                     res.json({
                         "fulfillmentMessages": [
                             {
@@ -195,6 +209,7 @@ module.exports = {
                         ]
                     });
                 } else {
+                    u_session = "";
                     res.json({
                         "fulfillmentMessages": [
                             {

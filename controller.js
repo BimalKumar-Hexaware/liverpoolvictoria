@@ -152,9 +152,14 @@ module.exports = {
                 break;
             case "lv.userloggedin-yes":
                 var oldParamsIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/old_params" });
-                var oldParamsContext = req.body.queryResult.outputContexts[oldParamsIndex];
+                var oldParamsContext = req.body.queryResult.outputContexts[oldParamsIndex].parameters;
+
+                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/function_name" });
+                var functionContextParams = req.body.queryResult.outputContexts[functionContextIndex].parameters;
+
+                oldParamsContext.func_event = functionContextParams.func_event;
                 console.log("oldParamsContext", JSON.stringify(oldParamsContext));
-                var response = helper.getApplicationStatus(oldParamsContext.parameters);
+                var response = helper.getApplicationStatus(oldParamsContext);
                 res.json({
                     "fulfillmentMessages": [
                         {

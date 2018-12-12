@@ -5,9 +5,9 @@ var _ = require('lodash');
 var self = {
     "getApplicationStatus": function (params) {
         var response;
+        
         if (customers.customerName == params.customerName && customers.fcaNumber == params.fcaNumber) {
-            if (_.has(appStatus.data, params.lvrefno)) {
-                
+            if (_.has(appStatus.data, params.lvrefno)) {                
                 switch (params.func_event) {
                     case "status update":
                         response = appStatus.data[params.lvrefno].statusText;
@@ -25,6 +25,7 @@ var self = {
         } else {
             response = "Customer name and FCA number not matching";
         }
+        console.log("HERE",response);
         return response;
     }
 };

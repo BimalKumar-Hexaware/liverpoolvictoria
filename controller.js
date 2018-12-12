@@ -253,7 +253,7 @@ module.exports = {
                 var finalResContextParams = req.body.queryResult.outputContexts[finalResContextIndex].parameters;
 
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/function_name" });
-                var functionContextParams = req.body.queryResult.outputContexts[functionContextIndex].parameter;
+                var functionContextParams = req.body.queryResult.outputContexts[functionContextIndex].parameters;
 
                 if (finalResContextParams.firstAns.toLowerCase() == customers.securityAnswers.firstAnswer && finalResContextParams.secondAns.toLowerCase() == customers.securityAnswers.secondAnswer) {
                     u_session.customerName = functionContextParams.customerName;

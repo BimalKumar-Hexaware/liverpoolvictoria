@@ -1,5 +1,6 @@
 var customers = require('./customer.json');
 var appStatus = require('./appStatus.json');
+var _ = require('lodash');
 
 var self = {
     "getApplicationStatus": function (params) {

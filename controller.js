@@ -191,7 +191,7 @@ module.exports = {
                 var oldParamsContextParams = req.body.queryResult.outputContexts[oldParamsIndex].parameters;
                 oldParamsContextParams.lvrefno = req.body.queryResult.parameters.lvrefno;
                 console.log("params", JSON.stringify(oldParamsContextParams));
-                var helperVar = helper.getApplicationStatus(oldParamsContextParams);
+                var response = helper.getApplicationStatus(oldParamsContextParams);
                 res.json({
                     "fulfillmentMessages": [
                         {

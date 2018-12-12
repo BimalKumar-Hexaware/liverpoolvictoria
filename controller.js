@@ -117,7 +117,7 @@ module.exports = {
                 break;
             case "lv.funcEvent-getFCANum-getLocation-getLVRef-getCusNo":
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/function_name" });
-                var functionContextParams = req.body.queryResult.outputContexts[functionContextIndex].parameter;
+                var functionContextParams = req.body.queryResult.outputContexts[functionContextIndex].parameters;
                 var response = helper.getApplicationStatus(functionContextParams);
                 res.json({
                     "followupEventInput": {

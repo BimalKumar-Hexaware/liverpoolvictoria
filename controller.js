@@ -2,14 +2,14 @@ var helper = require('./helper');
 var _ = require('lodash');
 var customers = require('./customer.json');
 var appStatus = require('./appStatus.json');
-var u_session = "";
+var u_session = { "fcaNumber": "", "lvrefno": "", "location": "", "customerName": "" };
 
 module.exports = {
     "webhookRequestHandler": (req, res) => {
         console.log("Dialogflow request body", JSON.stringify(req.body));
         console.log("DF Action", req.body.queryResult.action);
         var session = req.body.session;
-        console.log("u_session", u_session);
+        console.log("u_session", JSON.stringify(u_session));
         switch (req.body.queryResult.action) {
             case "lv.statusUpdate":
                 res.json({
@@ -48,25 +48,35 @@ module.exports = {
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/func_event" });
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 console.log("outputContext", JSON.stringify(req.body.queryResult.outputContexts[functionContextIndex]));
-                res.json({
-                    "fulfillmentMessages": [
-                        {
-                            "platform": "TELEPHONY",
-                            "telephonySynthesizeSpeech": {
-                                "text": "What is your FCA Number"
+                if (u_session.fcaNumber == "") {
+                    res.json({
+                        "fulfillmentMessages": [
+                            {
+                                "platform": "TELEPHONY",
+                                "telephonySynthesizeSpeech": {
+                                    "text": "What is your FCA Number"
+                                }
                             }
-                        }
-                    ],
-                    "outputContexts": [
-                        {
-                            "name": session + "/contexts/function_name",
-                            "lifespanCount": 5,
-                            "parameters": {
-                                "func_event": functionContext.parameters.func_event
+                        ],
+                        "outputContexts": [
+                            {
+                                "name": session + "/contexts/function_name",
+                                "lifespanCount": 5,
+                                "parameters": {
+                                    "func_event": functionContext.parameters.func_event
+                                }
                             }
+                        ]
+                    });
+                } else {
+                    res.json({
+                        "followupEventInput": {
+                            "name": "user_loggedin_event",
+                            "parameters": u_session,
+                            "languageCode": "en-US"
                         }
-                    ]
-                });
+                    });
+                }
                 break;
             case "lv.funcEvent-getFCANum":
                 res.json({
@@ -111,6 +121,10 @@ module.exports = {
                 var response;
                 if (customers.customerName == params.customerName && customers.fcaNumber == params.fcaNumber) {
                     if (_.has(appStatus.data, params.lvrefno)) {
+                        u_session.customerName = params.customerName;
+                        u_session.location = params.location;
+                        u_session.lvrefno = params.lvrefno;
+                        u_session.fcaNumber = params.fcaNumber;
                         switch (params.func_event) {
                             case "status update":
                                 response = appStatus.data[params.lvrefno].statusText;
@@ -139,14 +153,14 @@ module.exports = {
                 });
                 break;
             case "lv.userloggedin":
-                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/user_loggedin_event" });
-                var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
+                var contextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/user_loggedin_event" });
+                var contextIndex = req.body.queryResult.outputContexts[contextIndex];
                 res.json({
                     "fulfillmentMessages": [
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": functionContext.parameters.final_response
+                                "text": "Do you want to continue with the old LV reference number"
                             }
                         }
                     ]
@@ -198,7 +212,7 @@ module.exports = {
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 var params = req.body.queryResult.outputContexts[functionContextIndex].parameters;
                 if (params.firstAns.toLowerCase() == customers.securityAnswers.firstAnswer && params.secondAns.toLowerCase() == customers.securityAnswers.secondAnswer) {
-                    u_session = customers.fcaNumber;
+                    u_session.fcaNumber = customers.fcaNumber;
                     res.json({
                         "fulfillmentMessages": [
                             {

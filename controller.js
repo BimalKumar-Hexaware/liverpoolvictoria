@@ -151,7 +151,7 @@ module.exports = {
                 }
                 break;
             case "lv.userloggedin":
-                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/sec_ques_handle_event" });
+                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/user_loggedin_event" });
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 res.json({
                     "fulfillmentMessages": [

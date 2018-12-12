@@ -70,6 +70,7 @@ module.exports = {
                         ]
                     });
                 } else {
+                    u_session.func_event = functionContext.parameters.func_event;
                     res.json({
                         "followupEventInput": {
                             "name": "user_loggedin_event",
@@ -154,10 +155,6 @@ module.exports = {
                 var oldParamsIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/old_params" });
                 var oldParamsContext = req.body.queryResult.outputContexts[oldParamsIndex].parameters;
 
-                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/function_name" });
-                var functionContextParams = req.body.queryResult.outputContexts[functionContextIndex].parameters;
-
-                oldParamsContext.func_event = functionContextParams.func_event;
                 console.log("oldParamsContext", JSON.stringify(oldParamsContext));
                 var response = helper.getApplicationStatus(oldParamsContext);
                 res.json({
@@ -191,10 +188,10 @@ module.exports = {
                 break;
             case "lv.userloggedin-no-getLVRefNo":
                 var oldParamsIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/old_params" });
-                var oldParamsContextParams = req.body.queryResult.outputContexts[oldParamsIndex].parameter;
-                oldParamsContextParams.lvrefno = req.body.queryResultqueryResult.parameters.lvrefno;
-                console.log("params", JSON.stringify(params));
-                var helperVar = helper.getApplicationStatus(params);
+                var oldParamsContextParams = req.body.queryResult.outputContexts[oldParamsIndex].parameters;
+                oldParamsContextParams.lvrefno = req.body.queryResult.parameters.lvrefno;
+                console.log("params", JSON.stringify(oldParamsContextParams));
+                var helperVar = helper.getApplicationStatus(oldParamsContextParams);
                 res.json({
                     "fulfillmentMessages": [
                         {

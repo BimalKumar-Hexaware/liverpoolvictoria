@@ -128,27 +128,15 @@ module.exports = {
                 } else {
                     response = "Customer name and FCA number not matching";
                 }
-                if (u_session == "") {
-                    res.json({
-                        "followupEventInput": {
-                            "name": "sec_ques_handle_event",
-                            "parameters": {
-                                "final_response": response
-                            },
-                            "languageCode": "en-US"
-                        }
-                    });
-                } else {
-                    res.json({
-                        "followupEventInput": {
-                            "name": "user_loggedin_event",
-                            "parameters": {
-                                "final_response": response
-                            },
-                            "languageCode": "en-US"
-                        }
-                    });
-                }
+                res.json({
+                    "followupEventInput": {
+                        "name": "sec_ques_handle_event",
+                        "parameters": {
+                            "final_response": response
+                        },
+                        "languageCode": "en-US"
+                    }
+                });
                 break;
             case "lv.userloggedin":
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/user_loggedin_event" });

@@ -55,7 +55,7 @@ module.exports = {
                             {
                                 "platform": "TELEPHONY",
                                 "telephonySynthesizeSpeech": {
-                                    "text": "What is your FCA Number"
+                                    "text": "Can you please provide your FCA number"
                                 }
                             }
                         ],
@@ -86,7 +86,7 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "Where are you calling from"
+                                "text": "Alright Where are you calling from"
                             }
                         }
                     ]
@@ -98,7 +98,7 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "What is the LV reference of application number"
+                                "text": "What is the LV reference"
                             }
                         }
                     ]
@@ -110,7 +110,7 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "Whats the customers name"
+                                "text": "May I know your name"
                             }
                         }
                     ]

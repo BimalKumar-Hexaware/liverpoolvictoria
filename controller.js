@@ -140,16 +140,29 @@ module.exports = {
                     });
                 } else {
                     res.json({
-                        "fulfillmentMessages": [
-                            {
-                                "platform": "TELEPHONY",
-                                "telephonySynthesizeSpeech": {
-                                    "text": response
-                                }
-                            }
-                        ]
+                        "followupEventInput": {
+                            "name": "user_loggedin_event",
+                            "parameters": {
+                                "final_response": response
+                            },
+                            "languageCode": "en-US"
+                        }
                     });
                 }
+                break;
+            case "lv.userloggedin":
+                var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/sec_ques_handle_event" });
+                var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": functionContext.parameters.final_response
+                            }
+                        }
+                    ]
+                });
                 break;
             case "lv.secQuesHandler":
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/sec_ques_handle_event" });

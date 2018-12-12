@@ -118,35 +118,13 @@ module.exports = {
                 var functionContextIndex = _.findIndex(req.body.queryResult.outputContexts, { 'name': session + "/contexts/function_name" });
                 var functionContext = req.body.queryResult.outputContexts[functionContextIndex];
                 var params = req.body.queryResult.outputContexts[functionContextIndex].parameters;
-                var response;
-                if (customers.customerName == params.customerName && customers.fcaNumber == params.fcaNumber) {
-                    if (_.has(appStatus.data, params.lvrefno)) {
-                        u_session.customerName = params.customerName;
-                        u_session.location = params.location;
-                        u_session.lvrefno = params.lvrefno;
-                        u_session.fcaNumber = params.fcaNumber;
-                        switch (params.func_event) {
-                            case "status update":
-                                response = appStatus.data[params.lvrefno].statusText;
-                                break;
-                            case "check report":
-                                response = appStatus.data[params.lvrefno].statusText;
-                                break;
-                            case "underwriting decision":
-                                response = appStatus.data[params.lvrefno].uwDecisionReason;
-                                break;
-                        }
-                    } else {
-                        response = "LV reference number is not matching.";
-                    }
-                } else {
-                    response = "Customer name and FCA number not matching";
-                }
+                var helperVar = helper.getApplicationStatus(params);
+                u_session = helperVar.u_session;
                 res.json({
                     "followupEventInput": {
                         "name": "sec_ques_handle_event",
                         "parameters": {
-                            "final_response": response
+                            "final_response": helperVar.response
                         },
                         "languageCode": "en-US"
                     }
@@ -161,6 +139,50 @@ module.exports = {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
                                 "text": "Do you want to continue with the old LV reference number"
+                            }
+                        }
+                    ],
+                    "outputContexts": [
+                        {
+                            "name": session + "/contexts/old_params",
+                            "lifespanCount": 5,
+                            "parameters": contextIndex.parameters
+                        }
+                    ]
+                });
+                break;
+            case "lv.userloggedin-yes":
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "said yes"
+                            }
+                        }
+                    ]
+                });
+                break;
+            case "lv.userloggedin-no":
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "What is the LV reference of application number"
+                            }
+                        }
+                    ]
+                });
+                break;
+            case "lv.userloggedin-no-getLVRefNo":
+                var lvrefno = req.body.queryResultqueryResult.parameters.lvrefno;
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": "new lv ref"
                             }
                         }
                     ]

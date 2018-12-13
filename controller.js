@@ -19,6 +19,7 @@ module.exports = {
                     .sentence('How can I help you today').pause('500ms')
                     .sentence('You can connect to our customer executive at any point by saying').pause("500ms").say("connect to agent");
                 var speechOutput = speech.ssml(true);
+                console.log("speechOutput", speechOutput);
                 res.json({
                     "fulfillmentMessages": [
                         {

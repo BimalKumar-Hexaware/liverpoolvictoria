@@ -16,9 +16,9 @@ module.exports = {
             case "input.welcome":
                 var speech = new Speech();
                 speech.say('Hi').pause('500ms').sentence('welcome to liverpool victoria').sentence('I am your virtual agent')
-                    .sentence('How can I help you today').pause('500ms')
+                    .sentence('How can I help you today').pause('1000ms')
                     .sentence('You can connect to our customer executive at any point by saying').pause("500ms").say("connect to agent");
-                var speechOutput = speech.ssml(true);
+                var speechOutput = speech.ssml(false);
                 console.log("speechOutput", speechOutput);
                 res.json({
                     "fulfillmentMessages": [

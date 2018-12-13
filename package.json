@@ -17,6 +17,7 @@
     "forever": "^0.15.3",
     "lodash": "^4.17.11",
     "nodemon": "^1.18.4",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "ssml-builder": "^0.4.3"
   }
 }

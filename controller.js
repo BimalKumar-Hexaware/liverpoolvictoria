@@ -1,5 +1,6 @@
 var helper = require('./helper');
 var _ = require('lodash');
+var Speech = require('ssml-builder');
 var customers = require('./customer.json');
 var appStatus = require('./appStatus.json');
 var config = require('./config.json');
@@ -12,6 +13,23 @@ module.exports = {
         var session = req.body.session;
         console.log("u_session", JSON.stringify(u_session));
         switch (req.body.queryResult.action) {
+            case "input.welcome":
+                var speech = new Speech();
+                speech.say('Hi').pause('500ms').sentence('welcome to liverpool victoria').sentence('I am your virtual agent')
+                    .sentence('How can I help you today').pause('500ms')
+                    .sentence('You can connect to our customer executive at any point by saying').pause("500ms").say("connect to agent");
+                var speechOutput = speech.ssml(false);
+                res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "platform": "TELEPHONY",
+                            "telephonySynthesizeSpeech": {
+                                "text": speechOutput
+                            }
+                        }
+                    ]
+                });
+                break;
             case "lv.statusUpdate":
                 res.json({
                     "followupEventInput": {
@@ -86,7 +104,7 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "Alright Where are you calling from"
+                                "text": "Where are you calling from"
                             }
                         }
                     ]

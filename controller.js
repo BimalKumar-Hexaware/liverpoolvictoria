@@ -98,7 +98,7 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "What is the LV reference"
+                                "text": "Please provide the LV reference number"
                             }
                         }
                     ]
@@ -110,7 +110,7 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "May I know your name"
+                                "text": "Can I have the customers name"
                             }
                         }
                     ]
@@ -180,7 +180,7 @@ module.exports = {
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": "What is the LV reference of application number"
+                                "text": "What is the LV reference number"
                             }
                         }
                     ]

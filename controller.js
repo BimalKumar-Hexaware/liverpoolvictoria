@@ -18,13 +18,13 @@ module.exports = {
                 speech.say('Hi').pause('500ms').sentence('welcome to liverpool victoria').sentence('I am your virtual agent')
                     .sentence('How can I help you today').pause('500ms')
                     .sentence('You can connect to our customer executive at any point by saying').pause("500ms").say("connect to agent");
-                var speechOutput = speech.ssml(true);
+                var speechOutput = speech.ssml(false);
                 res.json({
                     "fulfillmentMessages": [
                         {
                             "platform": "TELEPHONY",
                             "telephonySynthesizeSpeech": {
-                                "text": speechOutput
+                                "ssml": speechOutput
                             }
                         }
                     ]

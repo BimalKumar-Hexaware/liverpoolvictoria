@@ -295,7 +295,8 @@ module.exports = {
                                     "text": config.prompt_msg
                                 }
                             }
-                        ]
+                        ],
+                        "outputContexts": []
                     });
                 } else {
                     res.json({
